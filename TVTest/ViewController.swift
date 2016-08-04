@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     
     var tasks = ["Exercise for 30 minutes", "Wireframe for some project", "Do laundry"]
@@ -16,11 +16,18 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
 
     @IBAction func insertButtonPressed(sender: UIButton) {
+        
+        tasks.append(insertTaskField.text!)
+        insertTaskField.text = ""
+        tableView.reloadData()
+        
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tableView.dataSource = self
+        tableView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,7 +49,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         // return cell so that Table View knows what to draw in each row
         return cell
     }
-    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("Section: \(indexPath.section) and Row: \(indexPath.row)")
+        tasks.removeAtIndex(indexPath.row)
+        tableView.reloadData()
+    }
     
     
     
